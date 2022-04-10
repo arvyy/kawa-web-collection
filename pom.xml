@@ -20,6 +20,7 @@
         <module>spark</module>
         <module>spring-password-encoder</module>
         <module>slf4j</module>
+        <module>srfi-180</module>
     </modules>
 
     <dependencies>
