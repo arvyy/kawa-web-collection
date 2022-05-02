@@ -21,6 +21,8 @@
         <module>spring-password-encoder</module>
         <module>slf4j</module>
         <module>srfi-180</module>
+        <module>solrj</module>
+        <module>solr-embedded</module>
     </modules>
 
     <dependencies>
