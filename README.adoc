@@ -1,0 +1,42 @@
+= Kawa web collection
+:toc: left
+
+== Prerequisites
+
+* Java 11
+
+* Maven 3
+
+== Installation
+
+Run `mvn install` from the root of this repository
+
+== Generating a project
+
+To generate a scaffold project, execute
+
+```
+mvn archetype:generate -DarchetypeGroupId=com.github.arvyy.kawa-web-collection
+                       -DarchetypeArtifactId=auth-archetype
+                       -DarchetypeVersion=0.0.1
+```
+
+== Modules
+
+include::dbutils/README.adoc[leveloffset=+1]
+
+include::interface/README.adoc[leveloffset=+1]
+
+include::mustache/README.adoc[leveloffset=+1]
+
+include::slf4j/README.adoc[leveloffset=+1]
+
+include::solrj/README.adoc[leveloffset=+1]
+
+include::solr-embedded/README.adoc[leveloffset=+1]
+
+include::spark/README.adoc[leveloffset=+1]
+
+include::spring-password-encoder/README.adoc[leveloffset=+1]
+
+include::srfi-180/README.adoc[leveloffset=+1]

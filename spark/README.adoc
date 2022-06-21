@@ -1,0 +1,335 @@
+= Spark web server
+
+Module provides http server functionality. Thin wrapper over sparkjava.
+
+== Maven dependencies
+
+```
+<dependency>
+    <groupId>com.github.arvyy.kawa-web-collection</groupId>
+    <artifactId>spark</artifactId>
+    <packaging>kawalib</packaging>
+    <version>0.0.1</version>
+</dependency>
+```
+
+== Exported procedures
+
+=== Library `(arvyy kawa-spark)`
+
+In all occurances below, `route` corresponds to a procedure parameter, that takes two arguments - request and response objects - and returns a value to be used in response.
+In all occurances below, `filter` corresponds to a procedure parameter, that takes two arguments - request and response objects - interacts with them in some way, but returns unspecified value. 
+In all occurances below, `req` corresponds to a request object, provided as the first argument to `route` or `filter`. 
+In all occurances below, `resp` corresponds to a response object, provided as the second argument to `route` or `filter`. 
+In all occurances below, `session` corresponds to a session object, retrieved through `req/session` / `req/create-session!`.
+
+`(get path route)`
+
+`(post path route)`
+
+`(put path route)`
+
+`(delete path route)`
+
+`(options path route)`
+
+Add a controller mapping for a GET / POST / PUT / DELETE / OPTIONS method. `path` is a path as a string.
+
+`(before-all filter)`
+
+`(after-all filter)`
+
+`(after-after-all filter)`
+
+Execute filter before / after / very-after ("finally" block) for any request.
+
+`(before path filter)`
+
+`(after path filter)`
+
+`(after-after path filter)`
+
+Execute filter before / after / very-after ("finally" block) for requests to a given path. `path` is a path as a string.
+
+`(redirect/get from to)`
+
+`(redirect/post from to)`
+
+`(redirect from to)`
+
+Redirect GET / POST / any requests coming through `from` path towards `to`. `from` and `to` are paths as strings.
+
+`(path path body ...)`
+
+Mappings defined in `body` will have `path` prefix added to them. `path` is path as a string. `body ...` are statements to be wrapped in a lambda.
+
+[source,scheme]
+----
+(path "rest"
+    (get "foo" (lambda (req resp) ;; maps to /rest/foo
+                  ...)))
+----
+
+`(req/attributes req)`
+
+Get request attributes as list of strings.
+
+`(req/attribute req attr)`
+
+Get attribute value. `attr` is attribute name as a string.
+
+`(req/set-attribute! req attr value)`
+
+Set attribute value. `attr` is attribute name as a string. `value` is any value. 
+
+`(req/body req)`
+
+Get request body as a string.
+
+`(req/body-as-bytes req)`
+
+Get request body as a vector of bytes.
+
+`(req/content-length req)`
+
+Get request length in bytes as an integer.
+
+`(req/content-type req)`
+
+Get request content-type as a string.
+
+`(req/context-path req)`
+
+Get request context-path as a string.
+
+`(req/cookies req)`
+
+Get request cookies as an alist.
+
+`(req/cookie req name)`
+
+Get a cookie by name as a string.
+
+`(req/headers req)`
+
+Get a list of header names present in request. 
+
+`(req/header req name)`
+
+Get value for the provided header as a string.
+
+`(req/host req)`
+
+Get host as a string.
+
+`(req/ip req)`
+
+Get IP as a string.
+
+`(req/params req)`
+
+Get params of the request as an alist. Param here refers to path variables encoded in the form of `:name`, for example
+
+[source,scheme]
+----
+;;  matches "GET /rest/users/u1"
+(get "/rest/users/:id" 
+     (lambda (req resp)
+       (define p (req/params req)) ;; ((":id" . "u1"))
+       ...
+     ))
+----
+
+`(req/param req name)`
+
+Get param of the request for given name as a string.
+
+`(req/path-info req)`
+
+Get path info as a string.
+
+`(req/port req)`
+
+Get port as an integer.
+
+`(req/protocol req)`
+
+Get protocol as a string.
+
+`(req/query-string req)`
+
+Get a query string (ie., the bit after `?`) as a string.
+
+`(req/query-params req)`
+
+Get query param names present in request as a list of strings.
+
+`(req/query-param req name)`
+
+Get first value for a given query parameter as a string.
+
+`(req/query-param-values req)`
+
+Get all values for a given query parameter (ie., when parameter is repeated multiple times) as a list of strings.
+
+`(req/request-method req)`
+
+Get HTTP method as a string.
+
+`(req/scheme req)`
+
+Get scheme as a string.
+
+`(req/session req)`
+
+Get session object, if session had been created. Returns #f if it wasn't.
+
+`(req/create-session! req)`
+
+Get session object; creates the session if it didn't exist.
+
+`(req/splat req)`
+
+Get splat of the request as a list of strings. Splat here refers to path variables encoded in the form of `*`, for example
+
+[source,scheme]
+----
+;;  matches "GET /rest/foo/bar/baz"
+(get "/rest/*/bar/*" 
+     (lambda (req resp)
+       (define s (req/splat req)) ;; ("foo" "baz")
+       ...
+     ))
+----
+
+`(req/uri req)`
+
+Get request URI as a string.
+
+`(req/url req)`
+
+Get request URL as a string.
+
+`(req/user-agent req)`
+
+Get user agent as a string.
+
+`(resp/body resp)`
+
+Get response body as string.
+
+`(resp/set-body! resp body)`
+
+Set response body as string.
+
+`(resp/set-header! resp name value)`
+
+Set response header. 
+
+`(resp/redirect resp location)`
+
+Mark response to do a redirect to a location.
+
+`(resp/status resp)`
+
+Get response status code as an integer.
+
+`(resp/set-status! resp status-code)`
+
+Set response status code as an integer.
+
+`(resp/type resp)`
+
+Get response content type as a string.
+
+`(resp/set-type! resp type)`
+
+Set response content type as a string.
+
+`(resp/set-cookie! resp name value)`
+
+Set cookie for the response.
+
+`(resp/remove-cookie! resp name)`
+
+Remove cookie by name from response.
+
+`(session/attribute session name)`
+
+Get attribute value from session by name.
+
+`(session/set-attribute! session name value)`
+
+Set session attribute value.
+
+`(session/remove-attribute! session name)`
+
+Remove session attribute.
+
+`(session/attributes session)`
+
+Get attribute names present in session as a list of strings.
+
+`(session/id session)`
+
+Get session unique id as a string.
+
+`(session/new? session)`
+
+Returns true if the session hadn't been communicated with client yet
+
+`(halt! code message)`
+
+Halt current request with given `code` status code as an integer, `message` as a string.
+
+`(not-found route)`
+
+Handle request which didn't match any handler.
+
+`(internal-server-error route)`
+
+Handle request which caused server-side error.
+
+`(exception handler)`
+
+Handle request which raised an exception. `handler` is like `route`, except it has an extra parameter in first position `exception`, corresponding to the raised object.
+
+`(static-files/location folder)`
+
+Enable serving static files from `folder` as a string relative to classpath (ie, inside src/main/resources).
+
+`(static-files/external-location folder)`
+
+Enable serving static files from file system from `folder` location as a string.
+
+`(static-files/expire-time seconds)`
+
+Set expire timing for static resources in seconds as an integer.
+
+`(static-files/header key value)`
+
+Append given header when serving static resources.
+
+`(init)`
+
+Manually start the server (The server is automatically started when you do something that requires the server to be started, and thus usually isn't needed).
+
+`(stop)`
+
+Stop the server.
+
+`(port value)`
+
+Set port on which to run server. Must be done before declaring routes and filters. Defaults to 4567.
+
+`(secure keystoreFilePath keystorePassword truststoreFilePath truststorePassword)`
+
+Secure server with SSL. Must be done before declaring routes and filters.
+
+`(thread-pool count)`
+
+Configure threadpool specifying the amount of threads. 
+
+`(await-initialization)`
+
+Block until server is ready

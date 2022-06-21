@@ -1,0 +1,18 @@
+= SRFI 180 (json)
+
+Plain SRFI 180 reference implementation for using json.
+
+== Maven dependencies
+
+```
+<dependency>
+    <groupId>com.github.arvyy.kawa-web-collection</groupId>
+    <artifactId>srfi-180</artifactId>
+    <packaging>kawalib</packaging>
+    <version>0.0.1</version>
+</dependency>
+```
+
+== Exported procedures
+
+For details, please see https://srfi.schemers.org/srfi-180/srfi-180.html . 

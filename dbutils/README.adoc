@@ -1,0 +1,109 @@
+= DB Utils
+
+Module for interacting with relational databases through JDBC drivers. A thin wrapper of Apache DbUtils.
+
+== Maven dependencies
+
+To include module itself, add following dependency.
+
+```
+<dependency>
+    <groupId>com.github.arvyy.kawa-web-collection</groupId>
+    <artifactId>dbutils</artifactId>
+    <packaging>kawalib</packaging>
+    <version>0.0.1</version>
+</dependency>
+```
+
+Note, however, this alone is not enough. As mentioned, this operates through JDBC, and therefore you'll also have to include 
+an appropriate JDBC driver for the kind of DB you plan using. For example, to use sqlite, you'd also add
+
+```
+<dependency>
+    <groupId>org.xerial</groupId>
+    <artifactId>sqlite-jdbc</artifactId>
+    <version>3.32.3.2</version>
+</dependency>
+```
+
+== Exported procedures
+
+=== Library `(arvyy dbutils)`
+
+`(make-query-runner driver url username password) -> query-runner`
+
+constructs query runner with given connection details to a database. `driver` is a driver java class name, and will depend
+on database / JDBC (eg for sqlite this would be "org.sqlite.JDBC"). `url` is the jdbc url, which specifies database location and other properties.
+As with driver, also entirely depends on database (eg for sqlite "jdbc:sqlite:testdb"). `username` and `password` are credentials as strings, used for connection.
+If DB isn't protected, these strings may be empty.
+
+`(query query-runner sql handler arg ...) -> query-result`
+
+execute a query (ie, `select` statement). `query-runner` is an object as constructed with `make-query-runner`. `sql` is SQL statement as a string. The statement 
+may have placeholders in using `?` (eg., `select * from users where name = ?`). During execution, each `?` placeholder is replaced with positionally corresponding `arg`. 
+`handler` is what handles database result and transforms it to the value, which is what ultimately gets returned from `query` call (see `handler/*` procedures below for handler construction). 
+
+`(handler/scalar) -> handler`
+
+creates a scalar handler, which expects for the query to have returned 1 row, and simply returns said row's value of first column. If query had returned 
+0 or 2+ rows, a `dbutils-error?` is raised.
+
+`(handler/single-of row-handler) -> handler`
+
+creates a handler, which expects for the query to have returned 1 row, and maps the row in accordance to `row-handler` before returning (see `row-handler/*` procedures below for row-handler construction).
+
+`(handler/list-of row-handler) -> handler`
+
+creates a handler which maps the rows in accordance to `row-handler`, and returns them as a list (see `row-handler/*` procedures below for row-handler construction).
+
+`(handler/generator-of row-handler consumer) -> handler`
+
+creates a handler which defers reading of the rows and creates a generator (ie, thunk, which when called repeatedly keeps returning next value, or `eof-object` if the values were exhausted), with generator producing values in accordance to `row-handler`. The result of `query` using this handler is `(consumer generator)`. (see `row-handler/*` procedures below for row-handler construction).
+
+`(row-handler/vector) -> row-handler`
+
+creates a row handler, which reads a row into a `vector`.
+
+`(row-handler/alist) -> row-handler`
+
+creates a row handler, which reads a row into an alist, using symbol to represent column name.
+
+`(update query-runner sql arg ...) -> count`
+
+executes an update (either DML, or a DDL statement), and returns a number of affected rows. `query-runner` is an object as constructed with 
+`make-query-runner`. `sql` is SQL statement as a string. The statement may have placeholders in using `?` 
+(eg., `update users set name = ? where name = ?`). During execution, each `?` placeholder is replaced with positionally corresponding `arg`.
+
+`(insert query-runner sql arg ...) -> new-id`
+
+same as `update`, except only usable with sql insert statement, and returned value corresponds to inserted row's generated id if the table has autoincrement.
+
+`(call-in-transaction query-runner use-existing? thunk)`
+
+invokes `thunk` and for its duration executes SQL statements inside a single transaction, and returns whatever `thunk` returns. 
+`query-runner` is an object as constructed with `make-query-runner`. 
+`use-existing?` specifies what do in the case when current context is already in transaction - if `#f`, a new transaction is started. 
+When using `call-in-transaction`, it's users responsibility to commit (or rollback) for the changes to take place, see `commit` and `rollback` below. 
+If an uncaught exception gets raised by thunk, transaction is automatically rolled back. 
+
+`(in-transaction?) -> boolean`
+
+returns if we're in a transaction context started by a `call-in-transaction`.
+
+`(commit)`
+
+`(rollback)`
+
+Commit / rollback current transaction. Raises an error if `in-transaction?` is false.
+
+`(dbutils-error? obj) -> boolean` 
+
+return whether or not given object is an error caused by DB interaction. 
+
+`(dbutils-error-message err) -> string`
+
+returns error's message. 
+
+`(dbutils-error-statement sql) -> string`
+
+returns sql statement, execution of which caused the error

@@ -1,0 +1,41 @@
+<html lang="en">
+    <head>
+        <title>Auth hello world</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <main class="login-main">
+            <h1>Auth hello world</h1>
+
+            {{# notifications }}
+            <aside class="notification notification-{{type}}">
+                {{ text }}
+            </aside>
+            {{/ notifications }}
+
+            <div class="forms">
+                <section>
+                    <h2>Login</h2>
+                    <form action="/login" method="POST">
+                        <label for="name">Name</label>
+                        <input type="textfield" name="name" id="name">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password">
+                        <input type="submit" value="Login">
+                    </form>
+                </section>
+
+                <section>
+                    <h2>Register</h2>
+                    <form action="/register" method="POST">
+                        <label for="register-name">Name</label>
+                        <input type="textfield" name="name" id="register-name">
+                        <label for="register-password">Password</label>
+                        <input type="password" name="password" id="register-password">
+                        <input type="submit" value="Register">
+                    </form>
+                </section>
+            </div>
+        </main>
+    </body>
+</html>

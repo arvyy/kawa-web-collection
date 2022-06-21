@@ -1,0 +1,56 @@
+= Password encoder
+
+Module to cryptographically encode and compare passwords or other sensitive data. Thin wrapper over spring security crypto library.
+
+== Maven dependencies
+
+```
+<dependency>
+    <groupId>com.github.arvyy.kawa-web-collection</groupId>
+    <artifactId>spring-password-encoder</artifactId>
+    <packaging>kawalib</packaging>
+    <version>0.0.1</version>
+</dependency>
+```
+
+== Exported procedures
+
+=== Library `(arvyy spring-password-encoder)`
+
+`(encode-password password-encoder password) -> encoded-password`
+
+encodes given password and returns it as a string. `password-encoder` is an encoder instantiated with one of `make-*-password-encoder` procedures below. `password` is a password as a string.
+
+Note that generally speaking, `encode-password` isn't referentially transparent and may return different results with same inputs (due to generating and using a different salt). Therefore this procedure is only useable for encoding, but not comparing. See `passwords-match` for validating user supplied password with stored password.
+
+`(passwords-match password-encoder raw-password encoded-password) -> matches?`
+
+compares given raw password with an encoded password, and returns whether they match as a boolean. `password-encoder` is an encoder instantiated with one of `make-*-password-encoder` procedures below. `raw-password` is a raw password as a string. `encoded-password` is a previously encoded password by an encoder as a string.
+
+`(make-pbkdf2-password-encoder) -> password-encoder`
+
+`(make-pbkdf2-password-encoder secret) -> password-encoder`
+
+`(make-pbkdf2-password-encoder secret salt-length) -> password-encoder`
+
+`(make-pbkdf2-password-encoder secret iterations hash-width) -> password-encoder`
+
+`(make-pbkdf2-password-encoder secret salt-length iterations hash-width) -> password-encoder`
+
+Constructs pbkdf2 based password encoder. 
+
+`(make-bcrypt-password-encoder [strength]) -> password-encoder`
+
+Constructs bcrypt based password encoder.
+
+`(make-scrypt-password-encoder [cpu-cost mem-cost parallelization key-length salt-length]) -> password-encoder`
+
+Constructs scrypt based password encoder.
+
+`(make-argon2-password-encoder [salt-length hash-length parallelization memory iterations]) -> password-encoder`
+
+Constructs argon2 based password encoder.
+
+`(make-custom-password-encoder encode-proc matches-proc) -> password-encoder`
+
+Constructs a custom password encoder. `encoder-proc` must be a procedure that takes raw password as a string and returns encoded password as a string. `matches-proc` must be a procedure that takes raw password as a string, encoded password as a string, and returns boolean whether or not passwords match.

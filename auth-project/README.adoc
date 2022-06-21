@@ -1,0 +1,23 @@
+= Run development
+
+```
+mvn kawa:run
+```
+
+= Run tests
+
+```
+mvn kawa:test
+```
+
+= Package distribution
+
+```
+mvn package
+```
+
+= Run packaged distribution
+
+```
+java -jar target/scheme-index.jar
+```

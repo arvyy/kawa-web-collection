@@ -1,0 +1,25 @@
+= basic-project
+
+== Run development
+
+```
+mvn kawa:run
+```
+
+== Run tests
+
+```
+mvn kawa:test
+```
+
+== Package distribution
+
+```
+mvn package
+```
+
+== Run packaged distribution
+
+```
+java -jar target/basic-project-0.1-SNAPSHOT.jar
+```

@@ -1,0 +1,53 @@
+= Solrj
+
+Module for interacting with Solr. A thin wrapper of Solrj. 
+If you wish to use embedded solr, add `solr-embedded` module.
+
+== Maven dependencies
+
+```
+<dependency>
+    <groupId>com.github.arvyy.kawa-web-collection</groupId>
+    <artifactId>solrj</artifactId>
+    <packaging>kawalib</packaging>
+    <version>0.0.1</version>
+</dependency>
+```
+
+== Exported procedures
+
+=== Library `(arvyy solrj)`
+
+`(create-http-solr-client url) -> solr-client`
+
+create a client, that connects to solr server running at given url.
+
+`commit-within`
+
+a parameter (used through `parameterize` form) controlling `commitWithin` solr parameter when calling `add`, `query`, `delete-by-query`, `delete-by-id`. 
+See https://solr.apache.org/guide/6_6/updatehandlers-in-solrconfig.html#UpdateHandlersinSolrConfig-commitWithin . 
+
+`(commit core)`
+
+`(rollback core)`
+
+force commit / rollback for a given core. `core` is a core name as a string. 
+
+`(add solr-client core docs)`
+
+Add documents to solr index. `core` is a core name as a string. `docs` is a vector of documents, where 
+each document is an alist using symbol as a key.
+
+`(query solr-client core handler params) -> solr-result`
+
+Execute solr query, returning json response in sexpr form as defined in srfi 180. `core` is a core name as a string. 
+`handler` is request handler name as a string. `params` is an alist of parameters to be passed to query, using symbols as keys, and strings, integers, or vector of the later as values. 
+
+`(delete-by-query solr-client core query)`
+
+Delete solr documents matching the query. `core` is a core name as a string. `query` is a string of lucene 
+query syntax, defining what to delete.
+
+`(delete-by-id solr-client core ids)`
+
+Delete solr documents with given ids. `core` is a core name as a string. `ids` is a vector of strings of documents to delete.

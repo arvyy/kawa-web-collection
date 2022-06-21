@@ -1,0 +1,67 @@
+= SLF4J logging API
+
+Module for using logging APIs.
+
+== Maven dependencies
+
+To include module itself, add following dependency.
+
+```
+<dependency>
+    <groupId>com.github.arvyy.kawa-web-collection</groupId>
+    <artifactId>slf4j</artifactId>
+    <packaging>kawalib</packaging>
+    <version>0.0.1</version>
+</dependency>
+```
+
+Note, however, this alone is not enough. SLF4J is an API, it's a frontend providing endpoints to log things, 
+however you'd also need to include one of loggers that provide SLF4J implementation. For development / tests, you can use simple implementation
+
+```
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-simple</artifactId>
+    <version>1.7.30</version>
+</dependency>
+```
+
+For production uses however, you should look into using log4j or logback implementations.
+
+== Exported procedures
+
+=== Library `(arvyy slf4j)`
+
+`(get-logger name) -> logger`
+
+create a logger by name.
+
+`(logger-name logger) -> name`
+
+return logger's name. `logger` is a logger constructed with `get-logger`.
+
+`(log-trace logger message arg ...)`
+
+`(log-debug logger message arg ...)`
+
+`(log-info logger message arg ...)`
+
+`(log-warn logger message arg ...)`
+
+`(log-error logger message arg ...)`
+
+log a message at appropriate level. `logger` is a logger constructed with `get-logger`. `message` is a string to be logged. The string may have placeholders 
+`{}` which would be substituted by `arg` value. The last `arg` which isn't matching a `{}` may be an error object (as caught by `with-excption-handler`). 
+Note that these are macros - each `arg` may be a resource intensive expression, which will only be evaluated if appropriate logging level is enabled.
+
+`(trace-enabled? logger) -> boolean`
+
+`(debug-enabled? logger) -> boolean`
+
+`(info-enabled? logger) -> boolean`
+
+`(warn-enabled? logger) -> boolean`
+
+`(error-enabled? logger) -> boolean`
+
+determine if specified logging level is enabled. `logger` is a logger constructed with `get-logger`.

@@ -1,0 +1,23 @@
+= Solr embedded
+
+Module for embeddeding Solr. 
+For interaction with with it, see `solrj` module.
+
+== Maven dependencies
+
+```
+<dependency>
+    <groupId>com.github.arvyy.kawa-web-collection</groupId>
+    <artifactId>solr-embedded</artifactId>
+    <packaging>kawalib</packaging>
+    <version>0.0.1</version>
+</dependency>
+```
+
+== Exported procedures
+
+=== Library `(arvyy solrj)`
+
+`(create-embedded-solr-client solrhome default-core) -> solr-client`
+
+create a client that wraps embedded lucene index. `solrhome` is path as a string to solr home folder containing solr configuration. `default-core` specifies core name that acts as a default.

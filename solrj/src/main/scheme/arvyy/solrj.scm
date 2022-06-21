@@ -1,7 +1,6 @@
 (define-library
     (arvyy solrj)
     (export
-
             create-http-solr-client
 
             commit-within

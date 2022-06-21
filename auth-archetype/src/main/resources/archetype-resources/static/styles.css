@@ -1,0 +1,71 @@
+body {
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: sans-serif;
+}
+
+.login-main {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4em;
+}
+
+.index-main {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 4em;
+}
+
+.index-main input {
+    margin-left: 1em;
+}
+
+input[type="submit"] {
+    color: white;
+    background-color: #44f;
+    border-radius: 5px;
+    border: none;
+    align-self: end;
+    cursor: pointer;
+}
+
+input {
+    padding: 0.5em;
+}
+
+.login-main form input {
+    margin-bottom: 1em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0;
+}
+
+.forms {
+    display: flex;
+    gap: 2em;
+}
+
+.notification {
+    border-radius: 5px;
+    align-self: stretch;
+    padding: 1em;
+}
+
+.notification-error {
+    background-color: #fcc;
+    color: #500;
+}
+
+.notification-info {
+    background-color: #cfc;
+    color: #050;
+}
