@@ -1,25 +1,48 @@
 = Kawa web collection
 :toc: left
 
+
+Project versioned at https://github.com/arvyy/kawa-web-collection 
+
+Compiled documentation can be viewed at https://arvyy.github.io/kawa-web-collection/README.html
+
+If you want inspiration on how a real project might look like using this collection, checkout scheme index https://github.com/arvyy/r7rs-index-site 
+
+== Goals and target audience
+
+Kawa web collection is an attempt to take mature and feature-complete web libraries and tooling, put them in a minimal wrapper, and enable them to be used through vanilla R7RS syntax. 
+All modules below are optional; you pay in final-artifact size cost only for what you choose to use.
+
+If you want to create web applications using Scheme, and don't mind learning maven, hopefully this collection will be just for you.
+
 == Prerequisites
 
-* Java 11
+You must have these tools installed (commonly available through package managers)
 
-* Maven 3
+* JDK 11 (test by running `javac -version`)
 
-== Installation
+* Maven 3 (test by running `mvn -version`)
 
-Run `mvn install` from the root of this repository
+You should eventually read up about maven in general (https://maven.apache.org/guides/getting-started/) and maven kawa plugin (https://github.com/arvyy/kawa-maven-plugin), 
+however if you use project generation command below, it will output all command line commands you need to run and package the application.
 
-== Generating a project
+== Setting up
 
-To generate a scaffold project, execute
+Run `mvn install` from the root of this repository to install collection in local maven repository, which will make individual modules available for local machine.
+
+To generate a scaffold project, navigate to some directory, and execute (you may or may not need `\` to escape newline)
 
 ```
 mvn archetype:generate -DarchetypeGroupId=com.github.arvyy.kawa-web-collection
                        -DarchetypeArtifactId=auth-archetype
                        -DarchetypeVersion=0.0.1
 ```
+
+This will create a simple application, that includes RDBS based authorization system (including proper password salting and hashing), MPA web interface, loggin with Logback. 
+To add other dependencies, use maven dependency block mentioned under each module, and paste it under `<dependencies>` tag. Likewise, if you don't need some of the dependencies in the scaffold, 
+remove corresponding `<dependency>` entry. 
+
+As mentioned, generated project will include a slim readme file, containing most important CLI commands to run and compile. 
 
 == Modules
 
@@ -40,3 +63,15 @@ include::spark/README.adoc[leveloffset=+1]
 include::spring-password-encoder/README.adoc[leveloffset=+1]
 
 include::srfi-180/README.adoc[leveloffset=+1]
+
+== Wishlist
+
+These are some of the modules that will hopefuly find their way to be included into this collection with time:
+
+* REST client
+
+* JWT library
+
+* Email sender
+
+* Excel (Apache POI) integration

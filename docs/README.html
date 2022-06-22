@@ -442,9 +442,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
+<li><a href="#_goals_and_target_audience">Goals and target audience</a></li>
 <li><a href="#_prerequisites">Prerequisites</a></li>
-<li><a href="#_installation">Installation</a></li>
-<li><a href="#_generating_a_project">Generating a project</a></li>
+<li><a href="#_setting_up">Setting up</a></li>
 <li><a href="#_modules">Modules</a></li>
 <li><a href="#_db_utils">DB Utils</a>
 <ul class="sectlevel2">
@@ -501,38 +501,66 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_exported_procedures_8">Exported procedures</a></li>
 </ul>
 </li>
+<li><a href="#_wishlist">Wishlist</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Project versioned at <a href="https://github.com/arvyy/kawa-web-collection" class="bare">https://github.com/arvyy/kawa-web-collection</a></p>
+</div>
+<div class="paragraph">
+<p>Compiled documentation can be viewed at <a href="https://arvyy.github.io/kawa-web-collection/README.html" class="bare">https://arvyy.github.io/kawa-web-collection/README.html</a></p>
+</div>
+<div class="paragraph">
+<p>If you want inspiration on how a real project might look like using this collection, checkout scheme index <a href="https://github.com/arvyy/r7rs-index-site" class="bare">https://github.com/arvyy/r7rs-index-site</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_goals_and_target_audience">Goals and target audience</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Kawa web collection is an attempt to take mature and feature-complete web libraries and tooling, put them in a minimal wrapper, and enable them to be used through vanilla R7RS syntax.
+All modules below are optional; you pay in final-artifact size cost only for what you choose to use.</p>
+</div>
+<div class="paragraph">
+<p>If you want to create web applications using Scheme, and don&#8217;t mind learning maven, hopefully this collection will be just for you.</p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_prerequisites">Prerequisites</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>You must have these tools installed (commonly available through package managers)</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>Java 11</p>
+<p>JDK 11 (test by running <code>javac -version</code>)</p>
 </li>
 <li>
-<p>Maven 3</p>
+<p>Maven 3 (test by running <code>mvn -version</code>)</p>
 </li>
 </ul>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_installation">Installation</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Run <code>mvn install</code> from the root of this repository</p>
+<p>You should eventually read up about maven in general (<a href="https://maven.apache.org/guides/getting-started/" class="bare">https://maven.apache.org/guides/getting-started/</a>) and maven kawa plugin (<a href="https://github.com/arvyy/kawa-maven-plugin" class="bare">https://github.com/arvyy/kawa-maven-plugin</a>),
+however if you use project generation command below, it will output all command line commands you need to run and package the application.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_generating_a_project">Generating a project</h2>
+<h2 id="_setting_up">Setting up</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To generate a scaffold project, execute</p>
+<p>Run <code>mvn install</code> from the root of this repository to install collection in local maven repository, which will make individual modules available for local machine.</p>
+</div>
+<div class="paragraph">
+<p>To generate a scaffold project, navigate to some directory, and execute (you may or may not need <code>\</code> to escape newline)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -540,6 +568,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
                        -DarchetypeArtifactId=auth-archetype
                        -DarchetypeVersion=0.0.1</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>This will create a simple application, that includes RDBS based authorization system (including proper password salting and hashing), MPA web interface, loggin with Logback.
+To add other dependencies, use maven dependency block mentioned under each module, and paste it under <code>&lt;dependencies&gt;</code> tag. Likewise, if you don&#8217;t need some of the dependencies in the scaffold,
+remove corresponding <code>&lt;dependency&gt;</code> entry.</p>
+</div>
+<div class="paragraph">
+<p>As mentioned, generated project will include a slim readme file, containing most important CLI commands to run and compile.</p>
 </div>
 </div>
 </div>
@@ -1787,10 +1823,34 @@ In all occurances below, <code>session</code> corresponds to a session object, r
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_wishlist">Wishlist</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>These are some of the modules that will hopefuly find their way to be included into this collection with time:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>REST client</p>
+</li>
+<li>
+<p>JWT library</p>
+</li>
+<li>
+<p>Email sender</p>
+</li>
+<li>
+<p>Excel (Apache POI) integration</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-22 01:27:52 +0300
+Last updated 2022-06-23 01:48:43 +0300
 </div>
 </div>
 </body>
