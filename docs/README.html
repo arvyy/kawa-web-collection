@@ -560,14 +560,15 @@ however if you use project generation command below, it will output all command 
 <p>Run <code>mvn install</code> from the root of this repository to install collection in local maven repository, which will make individual modules available for local machine.</p>
 </div>
 <div class="paragraph">
-<p>To generate a scaffold project, navigate to some directory, and execute (you may or may not need <code>\</code> to escape newline)</p>
+<p>To generate a scaffold project, navigate to some directory, and execute</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>mvn archetype:generate -DarchetypeGroupId=com.github.arvyy.kawa-web-collection
-                       -DarchetypeArtifactId=auth-archetype
-                       -DarchetypeVersion=0.0.1</code></pre>
+<pre class="highlight"><code>mvn archetype:generate "-DarchetypeGroupId=com.github.arvyy.kawa-web-collection" "-DarchetypeArtifactId=auth-archetype" "-DarchetypeVersion=0.0.1"</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>When asked for groupId enter some domain you control, when asked for artifactId enter a short name for the project.</p>
 </div>
 <div class="paragraph">
 <p>This will create a simple application, that includes RDBS based authorization system (including proper password salting and hashing), MPA web interface, loggin with Logback.
@@ -1850,7 +1851,7 @@ In all occurances below, <code>session</code> corresponds to a session object, r
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-23 01:48:43 +0300
+Last updated 2022-06-23 01:58:41 +0300
 </div>
 </div>
 </body>

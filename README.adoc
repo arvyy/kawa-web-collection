@@ -30,13 +30,13 @@ however if you use project generation command below, it will output all command 
 
 Run `mvn install` from the root of this repository to install collection in local maven repository, which will make individual modules available for local machine.
 
-To generate a scaffold project, navigate to some directory, and execute (you may or may not need `\` to escape newline)
+To generate a scaffold project, navigate to some directory, and execute
 
 ```
-mvn archetype:generate -DarchetypeGroupId=com.github.arvyy.kawa-web-collection
-                       -DarchetypeArtifactId=auth-archetype
-                       -DarchetypeVersion=0.0.1
+mvn archetype:generate "-DarchetypeGroupId=com.github.arvyy.kawa-web-collection" "-DarchetypeArtifactId=auth-archetype" "-DarchetypeVersion=0.0.1"
 ```
+
+When asked for groupId enter some domain you control, when asked for artifactId enter a short name for the project. 
 
 This will create a simple application, that includes RDBS based authorization system (including proper password salting and hashing), MPA web interface, loggin with Logback. 
 To add other dependencies, use maven dependency block mentioned under each module, and paste it under `<dependencies>` tag. Likewise, if you don't need some of the dependencies in the scaffold, 
